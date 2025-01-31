@@ -153,6 +153,7 @@ public class UserService implements UserDetailsService {
         senderTransaction.setToUsername(toSearchedAccount.getUsername());
 
         fromSearchedAccount.addTransaction(senderTransaction);
+        transactionRepository.save(senderTransaction);
 
         TransactionInfo receiverTransaction = new TransactionInfo();
         receiverTransaction.setType("transfer");
@@ -163,8 +164,6 @@ public class UserService implements UserDetailsService {
 
         
         toSearchedAccount.addTransaction(receiverTransaction);
-
-        transactionRepository.save(senderTransaction);
         transactionRepository.save(receiverTransaction);
 
         return "Successfully transferred";

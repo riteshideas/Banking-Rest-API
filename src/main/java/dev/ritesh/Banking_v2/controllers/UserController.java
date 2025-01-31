@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,12 +61,12 @@ public class UserController {
     }
 
     @PostMapping("/user/transfer")
-    public String transfer(Principal principal, @RequestParam String toAccountname, @RequestParam double amount) {
+    public String transfer(Principal principal, @RequestParam String toAccountName, @RequestParam double amount) {
         String fromAccountname = principal.getName();
-        return accountService.transfer(fromAccountname, toAccountname, amount);
+        return accountService.transfer(fromAccountname, toAccountName, amount);
     }
 
-    @GetMapping("/user/delete")
+    @DeleteMapping("/user/delete")
     public String deelteUser(Principal principal) {
         String username = principal.getName();
         return accountService.deleteUser(username);
@@ -73,6 +74,13 @@ public class UserController {
 
     @PostMapping("/generateToken")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+
+        UserInfo account = accountService.getUser(authRequest.getUsername())
+            .orElse(null);
+
+        if (account == null) {
+            return "Incorrect credentials";
+        }
 
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
