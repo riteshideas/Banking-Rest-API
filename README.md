@@ -74,7 +74,7 @@ Deposit
 Deposits money into the account
 
 ```http
-POST user/deposit?amount={amount}
+POST /user/deposit?amount={amount}
 ```
 #### Response
 ```
@@ -86,7 +86,7 @@ Withdraw
 Withdraws money from the account
 
 ```http
-POST user/withdraw?amount={amount}
+POST /user/withdraw?amount={amount}
 ```
 #### Response
 ```
@@ -101,7 +101,7 @@ Transfer
 ---
 Transfer money from one account to another
 ```http
-POST transfer?toAccountName=TestUser&amount=20
+POST /transfer?toAccountName=TestUser&amount=20
 ```
 
 #### Response
