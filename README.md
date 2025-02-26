@@ -117,7 +117,7 @@ Delete
 ---
 Deleting an account would not delete the transaction information associated with it
 
-```
+```http
 DEL /user/delete
 ```
 
@@ -126,6 +126,30 @@ DEL /user/delete
 Successfully deleted user
 ```
 
-### Further improvements 
+View Transactions
+---
+View the transactions regarding the user, and optionally add a filter to the tranfer types
+```http
+GET /user/getTransactions
+```
+Returns all the transactions
 
-- Write code to automatically generate a secret key
+Optionally apple a filter
+
+```http
+GET /user/getTransactions?filterTransaction=transfer
+```
+
+Response
+```json
+[
+    {
+        "id": 7,
+        "fromUsername": "TestUser1",
+        "toUsername": "TestUser2",
+        "type": "transfer",
+        "amount": 1000.0,
+        "time": ""
+    }
+]
+```

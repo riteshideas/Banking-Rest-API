@@ -1,6 +1,7 @@
 package dev.ritesh.Banking_v2.controllers;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.ritesh.Banking_v2.entities.AuthRequest;
+import dev.ritesh.Banking_v2.entities.TransactionInfo;
 import dev.ritesh.Banking_v2.entities.UserInfo;
 import dev.ritesh.Banking_v2.services.JwtService;
 import dev.ritesh.Banking_v2.services.UserService;
@@ -46,6 +48,15 @@ public class UserController {
     public Optional<UserInfo> getUser(Principal principal) {
         String queryUsername = principal.getName();
         return accountService.getUser(queryUsername);
+    }
+
+    @GetMapping("/user/getTransactions")
+    public List<TransactionInfo> getUserTransations(Principal principal, @RequestParam Optional<String> filterTransaction) {
+        System.out.println(filterTransaction);
+        
+        String queryTransactionType = filterTransaction.orElse("all"); // get all the transactions if not inputed
+        String queryUsername = principal.getName();
+        return accountService.getUserTransactions(queryUsername, queryTransactionType);
     }
 
     @PostMapping("/user/deposit")

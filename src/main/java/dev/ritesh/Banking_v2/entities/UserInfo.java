@@ -36,5 +36,8 @@ public class UserInfo {
         this.transactions.add(transaction);
     }
 
+    public List<TransactionInfo> getUserTransactions() {
+        return transactions;
+    }
 
 }

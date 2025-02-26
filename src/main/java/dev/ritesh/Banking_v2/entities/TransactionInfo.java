@@ -24,4 +24,8 @@ public class TransactionInfo {
     private String type;
     private double amount;    
     private Date time;
+
+    public String GetTransactionType() {
+        return type;
+    }
 }

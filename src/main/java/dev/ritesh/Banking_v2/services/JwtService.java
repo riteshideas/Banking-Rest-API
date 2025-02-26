@@ -1,8 +1,13 @@
 package dev.ritesh.Banking_v2.services;
 
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Component;
 
@@ -16,7 +21,13 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtService {
     
-    private final static String secret = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437"; // should be a secret string that is automatically genereated by code
+    private static String secret = "5367566B597033733676390792F423F4A942528482B4D6251655468576D5A71347437"; // should be a secret string that is automatically genereated by code
+
+    public JwtService() throws NoSuchAlgorithmException{
+        KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+        SecretKey secretKey = keyGen.generateKey();
+        secret = Base64.getEncoder().encodeToString(secretKey.getEncoded());
+    }
 
     // Generate a token
     public String generateToken(String username) {

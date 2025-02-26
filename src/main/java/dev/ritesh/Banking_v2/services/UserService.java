@@ -1,6 +1,8 @@
 package dev.ritesh.Banking_v2.services;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,6 +182,30 @@ public class UserService implements UserDetailsService {
         userRepository.delete(searchedAccount);
 
         return "Successfully deleted user";
+    }
+
+    public List<TransactionInfo> getUserTransactions(String username, String transactionSearchFilter) throws UsernameNotFoundException {
+        UserInfo user = userRepository.findByUsername(username)
+            .orElse(null);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        if (transactionSearchFilter.equals("all")) {
+            return user.getTransactions();
+        }
+
+        List<TransactionInfo> filteredTransactions = new ArrayList<TransactionInfo>();
+
+        for (TransactionInfo transaction : user.getTransactions()) {
+            if (transaction.GetTransactionType().equals(transactionSearchFilter)) {
+                filteredTransactions.add(transaction);
+            }
+        }
+
+        return filteredTransactions;
+
     }
  
 }
